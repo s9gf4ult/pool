@@ -204,7 +204,7 @@ forkIOLabeledWithUnmask label m = mask_ $ forkIOWithUnmask $ \unmask -> do
 -- have been left idle for too long.
 reaper :: (a -> IO ()) -> NominalDiffTime -> V.Vector (LocalPool a) -> IO ()
 reaper destroy idleTime pools = forever $ do
-  threadDelay (1 * 1000000)
+  threadDelay (1 * 10000000) -- 10 secs
   now <- getCurrentTime
   let isStale Entry{..} = now `diffUTCTime` lastUse > idleTime
   V.forM_ pools $ \LocalPool{..} -> do
